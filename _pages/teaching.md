@@ -2,11 +2,22 @@
 layout: page
 permalink: /teaching/
 title: teaching
-description: Materials for courses you taught. Replace this text with your description.
+description:
 nav: true
 nav_order: 4
 ---
+## courses
 
-For now, this page is assumed to be a static description of your courses. You can convert it to a collection similar to `_projects/` so that you can have a dedicated page for each course.
+I am assisting Herbert Jaeger in his courses "Neural Networks for AI" (B.Sc. in AI) and "Machine Learning" (M.Sc. in AI), see [here](https://www.ai.rug.nl/minds/teaching/).
 
-Organize your courses by years, topics, or universities, however you like!
+## supervision
+
+- **Gregory Schweickert**: 
+"Evolutionary optimization of activation functions in deep heterogeneous networks" (B.Sc. in AI), March 2022.
+- **Yara Schattschneider**: 
+"Solving the Credit Assignment Problem in Spiking Neural Networks for Gesture Recognition" (B.Sc. in AI), August 2022.
+<!-- - **Daniel Woonings** (co-supervised with Guillaume Pourcel): in progress (B.Sc. in AI), August 2022. -->
+<!-- - **Satchit Chatterij** (co-supervised with Guillaume Pourcel): in progress (B.Sc. in AI), August 2022. -->
+<!-- - **David Coslar**: -->
+
+<!-- - **Ryan O'Loughlin** (co-supervised with Guillaume Pourcel, Thomas Tiotto, Marleen Schippers): in progress (M.Sc. in AI), August 2022. -->
