@@ -4,6 +4,7 @@ module Jekyll
       def processImages(array)
         array = array.shuffle()
         array = array.select{ |photo| photo.path.include? 'img/portfolio/' }
+        array = array.select{ |photo| photo.path.include? '.jpg' }
         portraits = array.select{ |photo| photo.path.include? '/portrait/' }
         landscapes = array.select{ |photo| photo.path.include? '/landscape/' }
 
