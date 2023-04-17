@@ -27,9 +27,9 @@ I am developing concepts and methods for programming and interfacing with unconv
 
 In my free time I am a hobby photographer, like to read, travel, and go to music and art events.
 
-## meeting requests
+<!-- ## meeting requests
 
-To schedule a meeting, please use [this page](https://calendar.google.com/calendar/appointments/schedules/AcZssZ2rU1Lj1enWIUHfiUYBFg-ZCOWu4CIIrLuWZ8_etiYXOX-10c52sYEM8Ce9BL7Zp7vDirMTnS5e) to book a time in my calendar.
+To schedule a meeting, please use [this page](https://calendar.google.com/calendar/appointments/schedules/AcZssZ2rU1Lj1enWIUHfiUYBFg-ZCOWu4CIIrLuWZ8_etiYXOX-10c52sYEM8Ce9BL7Zp7vDirMTnS5e) to book a time in my calendar. -->
 
 ## supervision (bachelor/master)
 I am available to supervise bachelor and master projects at RUG in fall 2022.
