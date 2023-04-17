@@ -35,12 +35,12 @@ To schedule a meeting, please use [this page](https://calendar.google.com/calend
 I am available to supervise bachelor and master projects at RUG in fall 2022.
 If you are interested in working on a project related to machine learning or neural networks in novel neuromorphic hardware systems, please send me an [email](mailto:s.abreu@rug.nl).
 
-Topic ideas that I would find particularly interesting: 
-- learning in neural networks using local learning rules for bio-plausibility and efficient hardware implementation: equilibrium propagation and learning algorithms using dendritic processing are particularly promising.
-- evolving modular components in recurrent neural network architectures.
-- exploring different local learning rules in recurrent neural networks.
-- autonomous multi-task learning for recurrent neural networks (e.g. using conceptors).
-- neurosymbolic programming for neuromorphic hardware: merging machine learning with "classical" programming.
+<!-- Topic ideas that I would find particularly interesting:  -->
+<!-- - learning in neural networks using local learning rules for bio-plausibility and efficient implementation on neuromorphic hardware (e.g. equilibrium propagation). -->
+<!-- - evolving modular components in recurrent neural network architectures. -->
+<!-- - exploring different local learning rules in recurrent neural networks. -->
+<!-- - autonomous multi-task learning for recurrent neural networks (e.g. using conceptors). -->
+<!-- - neurosymbolic programming for neuromorphic hardware: merging machine learning with "classical" programming. -->
 <!-- - automated machine learning using neural networks. -->
 
 Take a look at [our group's website](https://www.ai.rug.nl/minds/) for more information on the kind of research we do, and [this page](https://www.ai.rug.nl/minds/teaching/studentprojects/) for more information on doing your thesis project in our group.
