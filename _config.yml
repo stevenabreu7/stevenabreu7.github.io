@@ -8,11 +8,11 @@ middle_name:
 last_name: abreu
 email: s.abreu@rug.nl
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  Academic website and portfolio, based on [*folio](https://github.com/bogoli/-folio).
+  Academic website and portfolio - Steven Abreu. Based on [*folio](https://github.com/bogoli/-folio).
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a>.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-keywords: jekyll, jekyll-theme, academic-website, portfolio-website  # add your own keywords or leave empty
+keywords:  # add your own keywords or leave empty
 
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: fav-icon.png  # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
@@ -89,7 +89,7 @@ bing_site_verification:  # out your bing-site-verification ID (Bing Webmaster)
 
 blog_name: blog # blog_name will be displayed in your blog page
 blog_nav_title: blog # your blog must have a title for it to be displayed in the nav bar
-blog_description: (under construction)
+blog_description: 
 permalink: /blog/:year/:title/
 
 # Pagination
@@ -123,9 +123,12 @@ collections:
   photos:
     output: true
     permalink: /photo/:path/
+  posts:
+    output: true
+    permalink: /blog/:path/
 
 news_scrollable: false # adds a vertical scroll bar if there are more than 3 news items
-news_limit: 5 # leave blank to include all the news in the `_news` folder
+news_limit: 4 # leave blank to include all the news in the `_news` folder
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
