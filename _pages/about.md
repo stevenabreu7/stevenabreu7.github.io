@@ -22,16 +22,20 @@ show_email: false  # SA: show or hide email icon
 
 I am a PhD student at the AI department of the University of Groningen, working in the [MINDS](https://www.ai.rug.nl/minds/) group under the supervision of [Prof. Herbert Jaeger](https://scholar.google.com/citations?hl=en&user=0uztVbMAAAAJ&view_op=list_works) and co-supervision of [Prof. Elisabetta Chicca](https://www.rug.nl/research/zernike/bio-inspired-circuits-and-systems/chicca-group/?lang=en). I am part of the [CogniGron](https://www.rug.nl/research/fse/cognitive-systems-and-materials/?lang=en) research center for cognitive computing and funded by the European project [Post-Digital](http://postdigital.astonphotonics.uk).
 
-In research, I like to keep one foot in **machine learning**, and the other in **novel computing paradigms and hardware** for AI. The future (and present) holds more diverse and specialized computer architectures and devices!
+In research I keep a dual focus on **advancing machine learning** while delving into **novel compute paradigms and hardware for AI**, especially those taking inspiration from the brain. I enjoy cross-disciplinary research between AI, computer science, neuroscience, physics, and cognitive science.
 
-<!-- hardware-aware AI -->
-During my PhD I develop **programming methods for novel AI hardware**, such as neuromorphic chips, event-based cameras, "cognitive materials", or photonic devices. The goal is to align computation with the underlying hardware and physics, and program despite challenges like device mismatch and limited observability. 
-<!-- I am inspired by probabilistic programming and neurosymbolic programming. -->
+<!-- TODO:
+- mention theoretical, mathematical, dynamical systems perspective -->
 
 <!-- efficient AI -->
-Within ML, I am interested in **continual learning** (especially using local plasticity), **efficient AI**, and **neurosymbolic programming**.
-I'm also interested in mechanistic interpretability and reverse engineering of ML models.
-<!-- meta-learning, AutoML, model compression -->
+Within ML, I work on **efficient machine learning** (enabling AI on low-power hardware) and I am interested in  continual learning (e.g. using brain-inspired neuromodulation or plasticity rules), meta-learning, and neurosymbolic programming.
+<!-- automated machine learning (AutoML), self-supervised learning, real-time ML, representation learning, dynamical systems for ML -->
+To make progress towards well-aligned and interpretable AI, I work on **mechanistic interpretability** and reverse-engineering of ML models.
+
+<!-- hardware-aware AI (-> more exotic stuff like photonic / analog neuromorphic) -->
+For my PhD I work on **physical and brain-inspired computing**, where I aim to develop theories that align computation with physics, in order to make better use of neuromorphic chips, photonic devices, and other physical computing systems.
+I aim to develop **computational abstractions in physical substrates** (e.g. through the neuromorphic intermediate representation, [NIR](https://github.com/neuromorphs/NIR)), new **hardware-compatible efficient learning algorithms**, and principled ways of ***programming* novel AI hardware** (confronting challenges like device mismatch and limited observability).
+<!-- - neurosymbolic programming for neuromorphic hardware: merging machine learning with "classical" programming. -->
 
 <!-- OLD (2021/2022) -->
 <!-- I am interested in interdisciplinary research in and around computer science and artificial intelligence: nature-inspired computing, understanding human cognition, and advancing artificial intelligence. -->
@@ -45,17 +49,16 @@ To schedule a meeting, please use [this page](https://calendar.google.com/calend
 
 ## student supervision
 I am available to supervise bachelor and master projects at RUG. Please send me an [email](mailto:s.abreu@rug.nl) if you are interested in working on a project related to the following topics:
-- continual lifelong learning using local learning rules on neuromorphic hardware (Intel Loihi 2)
-- interpretability and reverse-engineering of transformers or vision transformers
-- using an event-based camera with a neuromorphic processor (*e.g.*, for robotics)
-- automated machine learning or meta-learning (learning how to learn) using neural networks
-- finding modular components in recurrent neural network architectures (e.g. through evolution)
 
-<!-- Topic ideas that I would find particularly interesting:  -->
-<!-- - learning in neural networks using local learning rules for bio-plausibility and efficient implementation on neuromorphic hardware (e.g. equilibrium propagation). -->
-<!-- - exploring different local learning rules in recurrent neural networks. -->
+- efficient ML: minimizing energy and/or latency in ML models. <!-- making large neural networks run on low-power hardware (e.g. model compression, quantization) -->
+- large recurrent neural networks: e.g. using state-space models (S4, LRU)
+- interpretability of (multimodal) LLMs, e.g. using [conceptors](https://www.ai.rug.nl/minds/research/conceptorresearch/)
+- continual lifelong learning on neuromorphic hardware (e.g. with plasticity rules).
+- automated machine learning or meta-learning (learning how to learn) in neural networks
+- investigating modularity in neural networks (e.g. in evolved RNNs)
+- brain-inspired local learning rules for efficient hardware-compatible learning (e.g. equilibrium propagation, 3-factor learning, differential plasticity, evolving plasticity rules).
+<!-- - using an event-based camera with a neuromorphic processor (*e.g.*, for robotics) -->
 <!-- - autonomous multi-task learning for recurrent neural networks (e.g. using conceptors). -->
-<!-- - neurosymbolic programming for neuromorphic hardware: merging machine learning with "classical" programming. -->
 
 Take a look at [our group's website](https://www.ai.rug.nl/minds/) for more information on the kind of research we do, and [this page](https://www.ai.rug.nl/minds/teaching/studentprojects/) for more information on doing your thesis project in our group.
 
