@@ -47,21 +47,19 @@ I am also a hobby photographer, an enthusiastic coffee brewer, an avid motorcycl
 <!-- ## meeting requests
 To schedule a meeting, please use [this page](https://calendar.google.com/calendar/appointments/schedules/AcZssZ2rU1Lj1enWIUHfiUYBFg-ZCOWu4CIIrLuWZ8_etiYXOX-10c52sYEM8Ce9BL7Zp7vDirMTnS5e) to book a time in my calendar. -->
 
+<!-- 
 ## student supervision
 I am available to supervise bachelor and master projects at RUG. Please send me an [email](mailto:s.abreu@rug.nl) if you are interested in working on a project related to the following topics:
 
-- efficient ML: minimizing energy and/or latency in ML models. <!-- making large neural networks run on low-power hardware (e.g. model compression, quantization) -->
+- efficient ML: minimizing energy and/or latency in ML models. 
 - large recurrent neural networks: e.g. using state-space models (S4, LRU)
 - interpretability of (multimodal) LLMs, e.g. using [conceptors](https://www.ai.rug.nl/minds/research/conceptorresearch/)
 - continual lifelong learning on neuromorphic hardware (e.g. with plasticity rules).
 - automated machine learning or meta-learning (learning how to learn) in neural networks
 - investigating modularity in neural networks (e.g. in evolved RNNs)
 - brain-inspired local learning rules for efficient hardware-compatible learning (e.g. equilibrium propagation, 3-factor learning, differential plasticity, evolving plasticity rules).
-<!-- - using an event-based camera with a neuromorphic processor (*e.g.*, for robotics) -->
-<!-- - autonomous multi-task learning for recurrent neural networks (e.g. using conceptors). -->
 
 Take a look at [our group's website](https://www.ai.rug.nl/minds/) for more information on the kind of research we do, and [this page](https://www.ai.rug.nl/minds/teaching/studentprojects/) for more information on doing your thesis project in our group.
 
-<!-- Put your address / P.O. box / other info right below your picture. You can also disable any these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically. -->
-
-<!-- Link to your social media connections, too. This theme is set up to use [Font Awesome icons](http://fortawesome.github.io/Font-Awesome/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them. -->
+Link to your social media connections, too. This theme is set up to use [Font Awesome icons](http://fortawesome.github.io/Font-Awesome/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+-->
