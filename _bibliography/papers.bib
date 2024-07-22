@@ -1,9 +1,7 @@
 ---
 ---
 
-@string{aps = {American Physical Society,}}
-
-@misc{abreu2024qs5,
+@InProceedings{abreu2024qs5,
   title         = {Q-S5: Towards Quantized State Space Models}, 
   author        = {Steven Abreu* and Jens E. Pedersen* and Kade M. Heckel* and Alessandro Pierro},
   year          = {2024},
@@ -16,12 +14,12 @@
   note          = {Presented at ICML workshop NGSM},
   preview       = {qs5.png},
   code          = {https://github.com/stevenabreu7/Q-S5},
-  journal       = {International Conference on Machine Learning (ICML) 2024 - NGSM workshop},
+  booktitle     = {International Conference on Machine Learning (ICML) 2024 - NGSM workshop},
   pdf           = {https://arxiv.org/pdf/2406.09477},
   abstract      = {In the quest for next-generation sequence modeling architectures, State Space Models (SSMs) have emerged as a potent alternative to transformers, particularly for their computational efficiency and suitability for dynamical systems. This paper investigates the effect of quantization on the S5 model to understand its impact on model performance and to facilitate its deployment to edge and resource-constrained platforms. Using quantization-aware training (QAT) and post-training quantization (PTQ), we systematically evaluate the quantization sensitivity of SSMs across different tasks like dynamical systems modeling, Sequential MNIST (sMNIST) and most of the Long Range Arena (LRA). We present fully quantized S5 models whose test accuracy drops less than 1% on sMNIST and most of the LRA. We find that performance on most tasks degrades significantly for recurrent weights below 8-bit precision, but that other components can be compressed further without significant loss of performance. Our results further show that PTQ only performs well on language-based LRA tasks whereas all others require QAT. Our investigation provides necessary insights for the continued development of efficient and hardware-optimized SSMs.},
 }
 
-@misc{pierro2024mambaptqoutlierchannelsrecurrent,
+@InProceedings{pierro2024mambaptqoutlierchannelsrecurrent,
   title         = {Mamba-PTQ: Outlier Channels in Recurrent Large Language Models}, 
   author        = {Alessandro Pierro* and Steven Abreu*},
   year          = {2024},
@@ -33,7 +31,7 @@
   selected      = {true},
   bibtex_show   = {true},
   preview       = {mambaptq.png}, 
-  journal       = {International Conference on Machine Learning (ICML) 2024 - ES-FOMO-II workshop},
+  booktitle     = {International Conference on Machine Learning (ICML) 2024 - ES-FOMO-II workshop},
   abstract      = {Modern recurrent layers are emerging as a promising path toward edge deployment of foundation models, especially in the context of large language models (LLMs). Compressing the whole input sequence in a finite-dimensional representation enables recurrent layers to model long-range dependencies while maintaining a constant inference cost for each token and a fixed memory requirement. However, the practical deployment of LLMs in resource-limited environments often requires further model compression, such as quantization and pruning. While these techniques are well-established for attention-based models, their effects on recurrent layers remain underexplored. In this preliminary work, we focus on post-training quantization for recurrent LLMs and show that Mamba models exhibit the same pattern of outlier channels observed in attention-based LLMs. We show that the reason for the difficulty of quantizing SSMs is caused by activation outliers, similar to those observed in transformer-based LLMs. We report baseline results for post-training quantization of Mamba that do not take into account the activation outliers and suggest first steps for outlier-aware quantization.},
   pdf           = {https://arxiv.org/pdf/2407.12397},
 }
@@ -79,7 +77,6 @@
   issn        = {2405-4283},
   doi         = {https://doi.org/10.1016/j.revip.2024.100093},
   html        = {https://www.sciencedirect.com/science/article/pii/S2405428324000030},
-  pdf         = {},
   author      = {S. Abreu and I. Boikov and M. Goldmann and T. Jonuzi and A. Lupo and S. Masaad and L. Nguyen and E. Picco and G. Pourcel and A. Skalli and L. Talandier and B. Vettelschoss and E.A. Vlieg and A. Argyris and P. Bienstman and D. Brunner and J. Dambre and L. Daudet and J.D. Domenech and I. Fischer and F. Horst and S. Massar and C.R. Mirasso and B.J. Offrein and A. Rossi and M.C. Soriano and S. Sygletos and S.K. Turitsyn},
   abstract    = {We provide a perspective on the fundamental relationship between physics and computation, exploring the conditions under which a physical system can be harnessed for computation and the practical means to achieve this. Unlike traditional digital computers that impose discreteness on continuous substrates, unconventional computing embraces the inherent properties of physical systems. Exploring simultaneously the intricacies of physical implementations and applied computational paradigms, we discuss the interdisciplinary developments of unconventional computing. Here, we focus on the potential of photonic substrates for unconventional computing, implementing artificial neural networks to solve data-driven machine learning tasks. Several photonic neural network implementations are discussed, highlighting their potential advantages over electronic counterparts in terms of speed and energy efficiency. Finally, we address the challenges of achieving learning and programmability within physical substrates, outlining key strategies for future research.},
   selected    = {true},
