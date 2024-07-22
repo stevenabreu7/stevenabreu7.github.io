@@ -1,15 +1,13 @@
 ---
 layout: page
 title: Q-S5 - Towards Quantized State Space Models
-description: Presented at the NGSM workshop at ICML 2024.
+description: Steven Abreu*, Jens E. Pedersen*, Kade M. Heckel*, Alessandro Pierro
 img: assets/img/qs5.png
 importance: 1
 category: research
 ---
 
-<h2>
-    Q-S5: Towards Quantized State Space Models
-</h2>
+This work was presented at the [NGSM] workshop at [ICML 2024](https://icml.cc).
 
 You can find our code on [GitHub](https://github.com/kmheckel/q-s5) and our paper on [ArXiv](https://arxiv.org/abs/2406.09477).
 
