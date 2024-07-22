@@ -20,7 +20,8 @@ social: true  # includes social icons at the bottom of the page
 show_email: false  # SA: show or hide email icon
 ---
 
-I am a PhD student at the AI department of the University of Groningen, working in the [MINDS](https://www.ai.rug.nl/minds/) group under the supervision of [Prof. Herbert Jaeger](https://scholar.google.com/citations?hl=en&user=0uztVbMAAAAJ&view_op=list_works) and co-supervision of [Prof. Elisabetta Chicca](https://www.rug.nl/research/zernike/bio-inspired-circuits-and-systems/chicca-group/?lang=en). I am part of the [CogniGron](https://www.rug.nl/research/fse/cognitive-systems-and-materials/?lang=en) research center for cognitive computing and funded by the European project [Post-Digital](http://postdigital.astonphotonics.uk).
+I am a PhD student at the AI department of the University of Groningen, working in the [MINDS](https://www.ai.rug.nl/minds/) group under the supervision of [Prof. Herbert Jaeger](https://scholar.google.com/citations?hl=en&user=0uztVbMAAAAJ&view_op=list_works) and co-supervision of [Prof. Elisabetta Chicca](https://www.rug.nl/research/zernike/bio-inspired-circuits-and-systems/chicca-group/?lang=en). I am part of the [CogniGron](https://www.rug.nl/research/fse/cognitive-systems-and-materials/?lang=en) research center for cognitive computing and funded by the European project [Post-Digital](http://postdigital.astonphotonics.uk). 
+I'm currently on leave from my PhD position in Groningen to do research internships at Google and Intel.
 
 In research I keep a dual focus on **advancing machine learning** while delving into **novel compute paradigms and hardware for AI**, especially those taking inspiration from the brain. I enjoy cross-disciplinary research between AI, computer science, neuroscience, physics, and cognitive science.
 
