@@ -8,7 +8,7 @@ category: research
 ---
 
 This work was done during my internship at Google. 
-You can find our project website on [GitHub](https://github.com/parse-ego4d/parse-ego4d.github.io) and our paper on [ArXiv](https://arxiv.org/abs/2407.09503).
+You can find our project website [here](https://parse-ego4d.github.io/), our code and data is on [GitHub](https://github.com/parse-ego4d/parse-ego4d.github.io) and our paper on [ArXiv](https://arxiv.org/abs/2407.09503).
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
