@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 group :jekyll_plugins do
     gem 'uri', '1.0.2'
     gem 'github-pages', '~> 232', group: :jekyll_plugins
-    gem 'base64', '0.2.0'
+    gem 'base64', '0.1.0'
     gem 'jekyll'
     gem 'jekyll-archives'
     gem 'jekyll-diagrams'
