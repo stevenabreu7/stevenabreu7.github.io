@@ -97,6 +97,8 @@ export JEKYLL_ENV=production
 bundler -v
 gem list jekyll
 
+gem install bundler
+bundle install
 gem install jekyll
 
 jekyll -v
