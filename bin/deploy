@@ -99,6 +99,7 @@ gem list jekyll
 
 # gem install bundler
 gem install bundler -v 2.4.22
+bundler -v
 bundle install
 gem install jekyll
 
