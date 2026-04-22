@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">Publication placeholder</title>
+  <desc id="desc">Neutral placeholder thumbnail for publication entries without preview images.</desc>
+  <rect width="320" height="220" fill="#efe8dc" />
+  <rect x="32" y="36" width="256" height="148" rx="6" fill="#f8f4ec" stroke="#d7cec0" />
+  <rect x="56" y="68" width="112" height="10" rx="5" fill="#b8ab9a" />
+  <rect x="56" y="92" width="200" height="8" rx="4" fill="#d2c7ba" />
+  <rect x="56" y="110" width="184" height="8" rx="4" fill="#d2c7ba" />
+  <rect x="56" y="128" width="144" height="8" rx="4" fill="#d2c7ba" />
+  <circle cx="242" cy="128" r="22" fill="#e3d8c9" stroke="#c9bca9" />
+  <path d="M231 128h22M242 117v22" stroke="#9e8a72" stroke-width="4" stroke-linecap="round" />
+</svg>
