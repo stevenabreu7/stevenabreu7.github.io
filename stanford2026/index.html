@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Programming physical computers · Steven Abreu · Stanford MATSCI 342</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section class="title-slide">
+  <div class="eyebrow">MATSCI 342 · Stanford · April 2026</div>
+  <div class="accent-rule"></div>
+  <h1>Programming physical computers</h1>
+  <div class="subtitle">From neuromorphic abstractions to frontier AI</div>
+  <div class="meta">
+    Steven Abreu<br>
+    University of Groningen · MakerMaker.AI<br>
+    steve@makermaker.ai
+  </div>
+</section>
+<section>
+  <span class="eyebrow">Handoff from Jens</span>
+  <h2>What Jens showed us</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <ul>
+        <li>A theory of <strong>representation across computational substrates</strong></li>
+        <li><strong>NIR</strong> — continuous-time dynamics, graphs, substrate-agnostic</li>
+</ul>
+      <div class="punchline">
+        Theory gives us the abstraction.<br>
+        <em>How can we materialize these advantages?</em>
+      </div>
+    </div>
+    <div class="col-45">
+      <figure>
+        <img src="figures/nir_graphical_abstract.png" alt="NIR graphical abstract">
+        <figcaption>Pedersen &amp; Abreu et al. · Nature Comm. 2024</figcaption>
+      </figure>
+    </div>
+  </div>
+  <aside class="notes">
+    Jens covered theory. My half is applied — real hardware, real numbers, honest caveats, and a look at where the abstraction is and isn't paying off yet.
+  </aside>
+  <div class="footer-tag">intro</div>
+</section>
+<section>
+  <span class="eyebrow">Agenda</span>
+  <h2>Where we're going</h2>
+  <ol class="agenda">
+    <li>Motivation <span class="sub">— AI is scaling; so is its energy cost</span></li>
+    <li>Fundamentals <span class="sub">— computing with physics &amp; the programming problem</span></li>
+    <li>Loihi 2 case studies <span class="sub">— flow cytometry · SSMs · MatMul-free LLM</span></li>
+    <li>The analog frontier <span class="sub">— IBM 3D MoE · photonic crossbars</span></li>
+    <li>Coding agents for new frontiers <span class="sub">— automating the tedious part</span></li>
+    <li>Synthesis <span class="sub">— programming is the bottleneck</span></li>
+  </ol>
+  <div class="footer-tag">agenda</div>
+</section>
+<section class="divider">
+  <div class="section-num"><em>§ 01</em></div>
+  <div class="accent-rule"></div>
+  <h1>Motivation</h1>
+  <div class="section-sub">AI is scaling, but so is its energy cost.</div>
+</section>
+
+<section>
+  <span class="eyebrow">Part 1 · Motivation</span>
+  <h2>AI progress and the energy it demands</h2>
+  <div class="cols center">
+    <div class="col-60">
+      <figure class="chart-swap">
+        <img id="motivation-chart"
+             src="figures/motivation/gholami_ai_and_compute.png"
+             alt="AI compute trends"
+             style="max-height: 460px;">
+        <figcaption>
+          <span id="motivation-chart-caption" class="chart-caption-text">Gholami et al. — AI and the Memory Wall</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="col-40">
+      <p>The headlines are familiar:</p>
+      <ul style="font-size: 0.92em;">
+        <li>Training ≈ city-scale energy</li>
+        <li>Datacenters projected at ~25% of global electricity by 2030</li>
+        <li>Reasoning models burn inference, not just training</li>
+      </ul>
+</div>
+  </div>
+  <div class="footer-tag">part 1 · motivation</div>
+  <aside class="notes">
+    Keep this short. Students know the scaling story. Use the dropdown to flip between charts — pick one the day before, this UI is just for selection.
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Part 1 · Motivation</span>
+  <h2>AI progress and the energy it demands</h2>
+  <div class="cols center">
+    <div class="col-60">
+      <figure class="chart-swap">
+        <img id="motivation-chart"
+             src="figures/motivation/nvidia_three_scaling_laws.jpg"
+             alt="NVIDIA — Three scaling laws"
+             style="max-height: 460px;">
+        <figcaption>
+          </select>
+          <span id="motivation-chart-caption" class="chart-caption-text">NVIDIA — Three AI scaling laws (training, post-training, test-time)</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="col-40">
+      <ul>
+        <li>AI methods keep changing</li>
+        <li>Hardware requirements change</li>
+      </ul>
+      <div class="punchline fragment fade-in green" style="margin-top: 0.8em;">
+        We need a diversity of approaches
+      </div>
+    </div>
+  </div>
+  <div class="footer-tag">part 1 · motivation</div>
+  <aside class="notes">
+    Keep this short. Students know the scaling story. Use the dropdown to flip between charts — pick one the day before, this UI is just for selection.
+  </aside>
+</section>
+
+<script>
+  // Motivation-slide chart picker: swap the image and caption when the dropdown changes.
+  (function () {
+    function wire() {
+      var picker = document.getElementById('motivation-chart-picker');
+      var img = document.getElementById('motivation-chart');
+      var cap = document.getElementById('motivation-chart-caption');
+      if (!picker || !img || !cap) return;
+      // Prevent reveal from stealing focus/keys while interacting with the select
+      ['keydown', 'keyup', 'mousedown', 'click'].forEach(function (ev) {
+        picker.addEventListener(ev, function (e) { e.stopPropagation(); });
+      });
+      picker.addEventListener('change', function () {
+        var opt = picker.options[picker.selectedIndex];
+        img.src = opt.value;
+        cap.innerHTML = opt.getAttribute('data-caption') || '';
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wire);
+    } else {
+      wire();
+    }
+  })();
+</script>
+
+<section>
+  <span class="eyebrow">Part 1 · Motivation</span>
+  <h2>Different substrates scale differently</h2>
+  <div class="fig-center">
+    <figure>
+      <img src="figures/shankar_periodic_table.png" alt="Periodic table of computing" style="max-height: 425px;">
+      <figcaption>Shankar · Stanford Energy Seminar 2025</figcaption>
+    </figure>
+  </div>
+  <div class="punchline">
+    <em>Each square has its own physics — and its own ceiling.</em><br>
+AI so far is just exploring what works on GPUs
+  </div>
+  <div class="footer-tag">part 1 · motivation</div>
+  <aside class="notes">
+    Careful: don't overclaim. Each substrate has tradeoffs. But the *shape* of those tradeoffs is different from digital CMOS, and that's what opens new headroom. This talk is a tour of a few squares on this table.
+  </aside>
+</section>
+<section class="divider">
+  <div class="section-num"><em>§ 02</em></div>
+  <div class="accent-rule"></div>
+  <h1>Fundamentals</h1>
+  <div class="section-sub">Computing with physics · Ω → λ → Ψ</div>
+  <aside class="notes">
+    <p>Something Jens and I have been thinking about for a long time: programming new computing hardware is a fundamental, not incidental, problem. Two pieces here — reservoir computing as the simplest way to compute with physics, then the Ω → λ → Ψ frame for why that isn't enough.</p>
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Part 2 · Fundamentals</span>
+  <h2>What does it mean to compute with physics?</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <figure>
+        <img src="figures/rc_setup.png" alt="Reservoir computing setup">
+      </figure>
+    </div>
+    <div class="col-45">
+      <ul>
+        <li>Feed a signal into a <strong>fixed, nonlinear, high-dimensional dynamical system</strong></li>
+        <li>Read out its state and train <strong>only a linear output layer</strong></li>
+        <li>That's it — the physics does the work</li>
+      </ul>
+      <div class="punchline green" style="margin-top: 0.8em;">
+        Any system with <em>fading memory + nonlinearity</em> can, in principle, compute.
+      </div>
+    </div>
+  </div>
+  <div class="cite">Jaeger 2001 · Maass et al. 2002 · Cucchi &amp; Abreu et al. 2022 (tutorial)</div>
+  <div class="punchline fragment fade-in" style="margin-top: 0.8em;">
+    <strong>Very limited programmability</strong> with no composition, abstraction, and diminishing returns from scaling.
+  </div>
+  <div class="footer-tag">part 2 · fundamentals</div>
+</section>
+<section>
+  <span class="eyebrow">Part 2 · Fundamentals</span>
+  <h2>The Programming Problem</h2>
+  <div class="fig-center">
+    <figure>
+      <img src="figures/bip_programming.png" alt="Programming framework: Ω intention, λ computation, Ψ physics" style="max-height: 560px;">
+      <figcaption>Abreu &amp; Pedersen · Neuromorphic Programming, ICONS 2024 (after Jaeger et al. 2023)</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">
+    Ω = intention. λ = formal program. Ψ = physical system. Two barriers: formalization (Ω → λ, crossed by coding / synthesis) and implementation (λ → Ψ). On a GPU, the λ → Ψ barrier is invisible — 70 years of compilers. On neuromorphic and analog, it's wide open. Through-line of the talk.
+  </aside>
+  <div class="footer-tag">part 2 · fundamentals</div>
+</section>
+
+
+<section class="divider">
+  <div class="section-num"><em>§ 03</em></div>
+  <div class="accent-rule"></div>
+  <h1>Loihi 2 case studies</h1>
+  <div class="section-sub">
+    Digital neuromorphic computing<br>
+    flow cytometry · audio denoising · LLM
+  </div>
+</section>
+
+<section class="v-center">
+  <span class="eyebrow">Part 3 · Loihi 2</span>
+  <h2>Loihi 2 at a glance</h2>
+  <ul class="loihi-facts">
+    <li><strong>120</strong> neurocores per chip</li>
+    <li>Up to <strong>8192</strong> stateful neurons per neurocore</li>
+    <li><em>Asynchronous</em> design with barrier sync — but programmed against a <em>global timestep</em></li>
+    <li>Scales up to systems with <strong>~1B neurons</strong> and <strong>~128B synapses</strong></li>
+  </ul>
+  <div class="loihi-pair">
+    <img src="figures/loihi_processing.png" alt="Loihi 2 chip and neuron processing">
+    <img src="figures/loihi_systems_fig.png" alt="Loihi 2 systems from edge to HPC">
+  </div>
+  <div class="cite" style="text-align: right; margin-top: 0.6em;">Pierro &amp; Abreu et al. 2025</div>
+  <aside class="notes">
+    <p>Event-driven, asynchronous, tight memory-compute integration, programmable neuron models, on-chip learning.</p>
+    <p>Still digital — embodies neuromorphic principles without being analog.</p>
+    <p>Even if we just change this about the architecture, it enables a lot!!</p>
+  </aside>
+  <div class="footer-tag">part 3 · loihi</div>
+</section>
+
+<section>
+  <span class="eyebrow">Part 3 · Loihi 2</span>
+  <h2>Execution modes matter</h2>
+  <div class="cols center eq-height">
+    <div class="col-50">
+      <figure>
+        <img src="figures/mmf-main.png" alt="MatMul-free model mapped to Loihi 2 neuromorphic mesh">
+        <figcaption>Zhu et al. 2024 · Scalable MatMul-free Language Modeling</figcaption>
+      </figure>
+    </div>
+    <div class="col-50">
+      <figure>
+        <img src="figures/loihi_exec_modes.png" alt="Loihi execution modes">
+        <figcaption>Pierro &amp; Abreu et al. 2025</figcaption>
+      </figure>
+    </div>
+  </div>
+  <aside class="notes">
+    Not all ops on Loihi are equal — microcode vs. fixed-function matters for throughput and energy. Context for why the next case study hits 35× / 1200× rather than a modest factor.
+  </aside>
+  <div class="footer-tag">part 3 · loihi</div>
+</section>
+
+<section>
+  <span class="eyebrow">Case 1 · Flow cytometry</span>
+  <h2>Event-based flow cytometry on Loihi 2</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <figure>
+        <img src="figures/flow_optical_setup.png" alt="Flow cytometry optical setup">
+      </figure>
+    </div>
+    <div class="col-45">
+      <ul>
+        <li>Event camera + SNN on Loihi 2</li>
+        <li><strong>First fully event-based</strong> cytometry pipeline</li>
+        <li>Sensor-to-inference co-designed — no unnecessary frames</li>
+      </ul>
+      <div class="punchline" style="margin-top: 0.8em;">
+        Substrate transfer end-to-end: biology → event sensor → SNN → chip.
+      </div>
+    </div>
+  </div>
+  <div class="cite">Abreu et al. 2023 · CVPR Workshops</div>
+  <div class="footer-tag">part 3 · loihi</div>
+</section>
+<section>
+  <span class="eyebrow">Case 2 · Sparse SSMs</span>
+  <h2>State space models: linear recurrent dynamical systems</h2>
+  <div class="cols center">
+    <div class="col-60">
+      <figure>
+        <img src="figures/ssms.png" alt="SSM views: continuous-time, discrete-time, feedforward convolution" style="max-height: 360px; width: auto;">
+        <figcaption>Three equivalent views of an SSM</figcaption>
+      </figure>
+    </div>
+    <div class="col-40">
+      <figure>
+        <img src="figures/lru-zucchet.jpeg" alt="Linear recurrent unit with diagonal complex-valued states" style="max-height: 360px; width: auto;">
+        <figcaption>Zucchet et al. 2023 · LRU with diagonal state</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="punchline">
+    <em>NIR-native</em> primitives: continuous-time linear dynamics with <strong>diagonal, complex-valued</strong> state<br/>Every unit talks only to itself (local)
+  </div>
+  <div class="footer-tag">part 3 · loihi</div>
+  <aside class="notes">
+    SSMs are linear recurrent dynamical systems. Three equivalent views (ssms.png): continuous-time ODE, discrete-time recurrence, feedforward convolution.
+
+    In modern deep SSMs (S4 / S5 / LRU / Mamba) the recurrent matrix A is diagonal — every hidden unit only talks to itself. But the state is complex-valued, which gives each unit oscillatory behavior. The Zucchet LRU figure makes that diagonal-complex structure explicit.
+
+    This is exactly the kind of primitive NIR wants to express: continuous-time dynamics, minimal connectivity, composable into graphs. The discretization step is the honest caveat — today we discretize before deployment on Loihi.
+  </aside>
+</section>
+<section>
+  <span class="eyebrow">Case 2 · Sparse SSMs</span>
+  <h2>Sparsify, quantize, map to Loihi</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <figure>
+        <img src="figures/squash_overview.png" alt="Sparsification + quantization pipeline for S5 on Loihi" style="max-height: 360px;">
+        <figcaption>Pierro &amp; Abreu et al. 2025</figcaption>
+      </figure>
+    </div>
+    <div class="col-45">
+      <p><strong>Setup:</strong> real-time audio denoising, streaming, batch size 1.</p>
+      <ul>
+        <li>&gt;90% weight sparsity + int8</li>
+        <li>Activation sparsity on top (ReLU instead of GELU)</li>
+        <li>Mapped end-to-end to Loihi 2</li>
+      </ul>
+      <div class="punchline" style="margin-top: 0.6em;">
+        <strong>35× faster</strong> · <strong>1200× less energy</strong> vs. edge GPU.<br>
+        Sparsity was the biggest lever.
+      </div>
+    </div>
+  </div>
+  <div class="footer-tag">part 3 · loihi</div>
+</section>
+<section>
+  <span class="eyebrow">Case 2 · Sparse SSMs</span>
+  <h2>Sparsity dominates the Pareto front</h2>
+  <div class="cols center">
+    <div class="col-60">
+      <figure>
+        <img src="figures/squash-results-scaling.png" alt="Sparse vs dense SSM Pareto fronts on MACs and memory footprint">
+        <figcaption>Pierro &amp; Abreu et al. 2025</figcaption>
+      </figure>
+    </div>
+    <div class="col-40">
+      <ul>
+        <li>Sparse-w/-ReLU SSMs <strong>Pareto-dominate</strong> dense-w/-GELU on both compute and memory</li>
+        <li>Sparsity buys you a <em>smaller, cheaper model at the same accuracy</em></li>
+      </ul>
+      <div class="punchline" style="margin-top: 0.6em;">
+        This lesson is <em>not unique to neuromorphic</em> — it's mirrored across domains, and largely unexploited.
+      </div>
+    </div>
+  </div>
+  <div class="footer-tag">part 3 · loihi</div>
+</section>
+<section>
+  <span class="eyebrow">Case 2 · Sparse SSMs</span>
+  <h2>The sparsity story beyond SSMs</h2>
+  <div class="center">
+      <ul>
+        <li><strong>Mixture-of-Experts</strong> is the dominant sparsity story in modern LLMs — activate a few large experts per token.</li>
+        <li><strong>Fine-grained MoEs</strong> (many small experts) scale <em>even better</em> per parameter <span class="cite">[Krajewski 2024 · He 2024]</span></li>
+        <li><strong>Mixture of a million experts</strong> pushes this to the limit <span class="cite">[He 2024]</span></li>
+      </ul>
+      <div class="caveat" style="max-width: 60%; margin-left: auto; margin-right: auto;">
+        <strong>Hardware gap:</strong> GPUs and TPUs struggle with fine-grained sparsity — many small, scattered memory accesses. Neuromorphic and in-memory hardware are the natural match.
+      </div>
+  </div>
+  <div class="footer-tag">part 3 · loihi</div>
+  <aside class="notes">
+    Connect the sparse-SSM story to the wider ML world. MoE is well-known; fine-grained MoE (Krajewski 2024, He 2024) scales even better but is bottlenecked by GPU memory access patterns. He et al.'s "Mixture of a Million Experts" is the extreme case. The hardware gap is exactly what neuromorphic and analog in-memory substrates are good at — this teeing up the analog frontier later in the talk.
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Case 3 · MatMul-free LLM</span>
+  <h2>A MatMul-free LLM on Loihi 2</h2>
+  <div class="center">
+    <ul>
+      <li><strong>370M parameters</strong> — first LLM on neuromorphic hardware</li>
+      <li>Ternary weights, element-wise ops, no matmul</li>
+    </ul>
+    <figure style="margin-bottom: -8pt;">
+      <img src="figures/mmf_architecture.png" alt="MatMul-free LLM architecture" style="max-height: 340px;">
+      <div style="margin-top: -6pt;" class="cite">Abreu et al. 2025 · Zhu et al. 2025</div>
+    </figure>
+    <div class="punchline">
+      Autoregressive decoding is where GPUs leave energy on the table — arithmetic intensity collapses<br>
+      <strong>~3× faster</strong> and <strong>~77× less energy per token</strong> vs. H100 running a same-size Transformer (batch size 1)
+    </div>
+  </div>
+  <div class="footer-tag">part 3 · loihi</div>
+</section>
+
+
+<section class="divider">
+  <div class="section-num"><em>§ 04</em></div>
+  <div class="accent-rule"></div>
+  <h1>The analog frontier</h1>
+  <div class="section-sub">What physics promises — and what programming doesn't give us yet.</div>
+</section>
+
+<section>
+  <span class="eyebrow">Part 4 · Analog</span>
+  <h2>Where the physics gets interesting</h2>
+  <div class="cols eq-height">
+    <div>
+      <img src="figures/buechel2025-cropped.png" alt="IBM 3D analog MoE" style="width: 100%; max-height: 300px; object-fit: contain;">
+      <h4 style="margin-top: 0.4em;">IBM 3D analog in-memory MoE (simulation)</h4>
+      <p style="font-size: 0.85em; margin: 0.2em 0;">MoE sparsity × analog locality, compounded.</p>
+      <p class="cite">Büchel et al. 2025</p>
+    </div>
+    <div>
+      <img src="figures/feldman-pernice.png" alt="Photonic tensor core — Feldmann et al. 2021" style="width: 100%; max-height: 300px; object-fit: contain;">
+      <h4 style="margin-top: 0.4em;">Photonic matrix–vector multiplication</h4>
+      <p style="font-size: 0.85em; margin: 0.2em 0;">MVM at constant speed — independent of matrix size.</p>
+      <p class="cite">Feldmann et al. 2021 · Shastri et al. 2021</p>
+    </div>
+  </div>
+  <div class="punchline fragment fade-in">
+    Both shift the bottleneck away from data movement<br>
+    toward a <em>precision / noise / conversion wall</em> instead.
+  </div>
+  <div class="footer-tag">part 4 · analog</div>
+  <aside class="notes">
+    <p>I've spent much of my PhD working with physicists and material scientists to come up with 
+    more efficient ways to compute. This is really hard.</p>
+
+    <p>re: IBM - 3D CiM LLM inference simulator</p>
+    <ul>
+      <li>hierarchy of tiles with tiers of vertically stacked crossbars</li>
+      <li>using generic 3D stacked NVM (IBM is doing PCM, but ReRAM or FeFET also fits)</li>
+      <li>each MoE expert to its own physical tier -> 1000x less energy than GPUs</li>
+      <li>Sparsity + locality</li>
+    </ul>
+
+    <p>re: photonic</p>
+    <ul>
+      <li>phase change memory arrays for the weights</li>
+      <li>optical frequency combs for modulating the activations</li>
+    </ul>
+
+    <p>
+      Cross-cutting issues:
+    </p>
+    <ul>
+      <li>conversions (ADC, E/O)</li>
+      <li>precision</li>
+      <li>calibration, mismatch, coherence</li>
+    </ul>
+
+    do we need better abstractions here?
+  </aside>
+</section>
+<section class="divider">
+  <div class="section-num"><em>§ 05</em></div>
+  <div class="accent-rule"></div>
+  <h1>Coding agents for new frontiers</h1>
+  <div class="section-sub">If the programming stack is the bottleneck — can we let AI build it?</div>
+</section>
+
+<section>
+  <span class="eyebrow">Part 5 · Coding agents</span>
+  <h2>Low-level programming as the bottleneck</h2>
+  <p>Every case study so far required <strong>months of manual work</strong> to cross the λ → Ψ barrier:</p>
+  <ul>
+    <li>Writing low-level Loihi kernels by hand</li>
+    <li>Tuning microcode for each execution mode</li>
+    <li>Mapping graphs to chip topology</li>
+    <li>Re-deriving math after every architecture change</li>
+  </ul>
+  <div class="punchline fragment fade-in">
+    This is where most of the engineering time went<br>
+    <em>Designing models and training was the easy part (albeit expensive..)</em>
+  </div>
+  <div class="footer-tag">part 5 · agents</div>
+  <aside class="notes">
+    <p>
+      The neuromorphic LLM paper was ~80% plumbing, ~20% ideas. Similar for the sparse SSM work. This is the real bottleneck behind the programming-stack framing.
+    </p>
+    <p>
+      This is of course an exaggeration. I'm an algorithms guy after all. 
+      HW design is HARD! But, once you have your chip, making it useful is also REALLY difficult.
+    </p>
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Part 5 · Coding agents</span>
+  <h2>Agents are writing optimized GPU kernels</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <img src="figures/ksearch-2026.png" alt="K-Search — LLM kernel generation" style="width: 100%; max-height: 500px; object-fit: contain;">
+    </div>
+    <div class="col-45">
+      <h4>K-Search</h4>
+      <ul style="font-size: 0.9em;">
+        <li><strong>2.1×</strong> avg speedup over prior evolutionary methods</li>
+        <li><strong>14.3×</strong> on complex MoE kernels</li>
+        <li>Beats human-designed solutions on GPUMode TriMul @ H100</li>
+      </ul>
+      <div class="caveat" style="font-size: 0.85em; margin-top: 0.8em;">
+        <strong>In production:</strong> Meta's <strong>KernelEvolve</strong> deploys agentic kernel synthesis across NVIDIA, AMD, and Meta's own accelerators — cutting dev time from <em>weeks to hours</em>.
+      </div>
+      <p class="cite">
+        Cao et al. 2026 · K-Search · arXiv 2602.19128<br>
+        Liao et al. 2025 · KernelEvolve (Meta) · arXiv 2512.23236
+      </p>
+    </div>
+  </div>
+  <div class="footer-tag">part 5 · agents</div>
+  <aside class="notes">
+    <p>K-Search separates planning from code-gen — uses a co-evolving world model rather than treating the LLM as a blind code generator. That's the structural insight: LLMs as kernel writers need a loop with a real evaluator.</p>
+    <p>Meta's KernelEvolve is the production evidence. It's shipping, across three hardware families. Weeks-to-hours is the number they publish. This is not a research demo.</p>
+    <p>For the audience: this matters because kernel writing has always been the specialist bottleneck — the thing you needed a PhD-year to do for each new chip. That's now collapsing.</p>
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Part 5 · Coding agents</span>
+  <h2>Agents could automate anything evaluatable</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <img src="figures/metr.png" alt="METR time-horizon doubling chart" style="width: 100%; max-height: 500px; object-fit: contain;">
+      <p class="cite" style="text-align: center;">METR · time-horizon benchmark</p>
+    </div>
+    <div class="col-45">
+      <p>The trend:</p>
+      <ul style="font-size: 0.9em;">
+        <li>Task horizons double every <strong>~7 months</strong></li>
+        <li>Extrapolated: hour-long tasks → day-long tasks → week-long tasks</li>
+        <li>Gated on <em>evaluatable-ness</em> — clear specs, cheap checkers</li>
+      </ul>
+      <div class="punchline green" style="font-size: 1.0em; margin-top: 0.8em;">
+        Kernel design, arch search — all evaluatable.<br>
+        <em>Design and abstraction become the bottleneck.</em>
+      </div>
+    </div>
+  </div>
+  <div class="punchline fragment fade-in">
+    Coding agents don't replace NIR — they're <em>what makes high-level NIR-like abstractions work.</em>
+  </div>
+  <div class="footer-tag">part 5 · agents</div>
+  <aside class="notes">
+    <p>conclusion for the whole talk: if implementation becomes cheap, the scarce resource is good specifications.</p> 
+    <p>NIR is a good specification. Ω→λ becomes the bottleneck, not λ→Ψ.</p>
+    <p>That's why substrate-agnostic abstractions matter more over time.</p>
+  </aside>
+</section>
+<section class="divider">
+  <div class="section-num"><em>§ 06</em></div>
+  <div class="accent-rule"></div>
+  <h1>Synthesis</h1>
+  <div class="section-sub">Programming is the bottleneck</div>
+</section>
+
+<section>
+  <span class="eyebrow">Part 6 · Synthesis</span>
+  <h2>The Programming Problem: Ω ↔ λ ↔ Ψ</h2>
+  <ul>
+    <li>GPUs: <strong>70 years</strong> of compilers. The λ → Ψ barrier is invisible.</li>
+    <li>Neuromorphic digital: <strong>NIR</strong> and siblings. ~a decade old.</li>
+    <li>Analog: <strong>almost nothing.</strong> Every deployment is artisanal.</li>
+    <li>Coding agents: a <strong>new kind of compiler</strong> that helps with both barriers.</li>
+  </ul>
+  <div class="question" style="max-width: 52ch;">
+    The physical embodiment of AGI is a software/abstraction problem as much as a materials one.
+  </div>
+  <div class="footer-tag">part 6 · synthesis</div>
+</section>
+<section>
+  <span class="eyebrow">thank you</span>
+  <div class="cols center" style="gap: 3em;">
+    <div class="col-40" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 1em;">
+      <div style="font-family: var(--serif); font-style: italic; font-size: 2.6em; color: var(--accent); line-height: 1;">Thank you</div>
+      <div style="width: 80px; height: 3px; background: var(--accent);"></div>
+      <div style="font-family: var(--mono); font-size: 0.55em; color: var(--ink-soft); line-height: 1.9; margin-top: 0.4em;">
+        steve@makermaker.ai<br>
+        NIR · github.com/neuromorphs/NIR
+      </div>
+    </div>
+    <div class="col-60 fragment fade-in">
+      <h2>Takeaways</h2>
+      <ol class="takeaways">
+        <li><strong>AI wants to scale further</strong> - substrates scale differently, and we need more diversity.</li>
+        <li><strong>Neuromorphic principles</strong> like sparsity, locality, low precision already win on digital.</li>
+        <li><strong>Co-design wins most</strong> where GPUs underperform: autoregressive, streaming, edge.</li>
+        <li><strong>Abstraction is the bottleneck</strong>, not the physics.</li>
+        <li><strong>Coding agents</strong> may enable us to program novel substrates faster, and at scale.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="footer-tag">questions</div>
+</section>
+<section class="divider">
+  <div class="section-num"><em>Appendix</em></div>
+  <div class="accent-rule"></div>
+  <h1>Backup slides</h1>
+</section>
+
+<section>
+  <span class="eyebrow">Appendix · Fundamentals</span>
+  <h2>Paradigms of computation</h2>
+  <p style="color: var(--ink-soft); font-style: italic; font-size: 0.82em; max-width: 58ch; margin-top: -0.2em;">Computing paradigms differ by how they relate the physics Ψ to the model of computation λ.</p>
+  <div class="paradigms">
+    <div class="paradigm">
+      <div class="paradigm-glyph">λ</div>
+      <svg class="paradigm-arrow" width="40" height="80" viewBox="0 0 40 80" aria-hidden="true"><line x1="20" y1="6" x2="20" y2="64"/><polygon points="20,76 12,60 28,60"/></svg>
+      <div class="paradigm-glyph paradigm-glyph-psi">Ψ</div>
+      <div class="paradigm-name">Theory-first</div>
+      <div class="paradigm-desc">Imposes the theory of computation on a physical substrate.</div>
+      <div class="paradigm-example"><strong>E.g.</strong> digital</div>
+    </div>
+    <div class="paradigm">
+      <div class="paradigm-glyph">λ</div>
+      <svg class="paradigm-arrow" width="40" height="80" viewBox="0 0 40 80" aria-hidden="true"><line x1="20" y1="16" x2="20" y2="74"/><polygon points="20,4 12,20 28,20"/></svg>
+      <div class="paradigm-glyph paradigm-glyph-psi">Ψ</div>
+      <div class="paradigm-name">Physics-first</div>
+      <div class="paradigm-desc">Imposes physical laws on the theory of computation.</div>
+      <div class="paradigm-example"><strong>E.g.</strong> quantum</div>
+    </div>
+    <div class="paradigm">
+      <div class="paradigm-glyph">λ</div>
+      <svg class="paradigm-arrow" width="40" height="80" viewBox="0 0 40 80" aria-hidden="true"><line x1="20" y1="16" x2="20" y2="64"/><polygon points="20,4 12,20 28,20"/><polygon points="20,76 12,60 28,60"/></svg>
+      <div class="paradigm-glyph paradigm-glyph-psi">Ψ</div>
+      <div class="paradigm-name">Bridge</div>
+      <div class="paradigm-desc">Match computations with a class of physical systems.</div>
+      <div class="paradigm-example"><strong>E.g.</strong> reservoir</div>
+    </div>
+    <div class="paradigm">
+      <div class="paradigm-glyph">λ</div>
+      <svg class="paradigm-arrow" width="140" height="80" viewBox="0 0 140 80" aria-hidden="true"><line x1="26" y1="74" x2="62" y2="16"/><polygon points="70,4 56,18 66,22"/><line x1="78" y1="16" x2="114" y2="74"/><polygon points="120,80 110,62 124,68"/></svg>
+      <div class="paradigm-glyphs-pair">
+        <span class="paradigm-glyph paradigm-glyph-psi">Ψ</span>
+        <span class="paradigm-glyph paradigm-glyph-psi">Ψ</span>
+      </div>
+      <div class="paradigm-name">Transfer</div>
+      <div class="paradigm-desc">Implement existing computing system on a different substrate.</div>
+      <div class="paradigm-example"><strong>E.g.</strong> neuromorphic</div>
+    </div>
+  </div>
+  <div class="cite" style="text-align: right; margin-top: 0.3em;">Abreu et al. 2024 · Photonics for neuromorphic computing</div>
+  <aside class="notes">
+    <p>NIR sits in the Transfer column — continuous-time dynamics as a substrate-agnostic primitive, working today on digital/mixed-signal neuromorphic, analog still open.</p>
+  </aside>
+  <div class="footer-tag">appendix · paradigms</div>
+</section>
+
+<section>
+  <span class="eyebrow">Part 1 · Motivation</span>
+  <h2>AI progress and the energy it demands</h2>
+  <div class="cols center">
+    <div class="col-60">
+      <figure class="chart-swap">
+        <img id="motivation-chart"
+             src="figures/motivation/arxiv_2604.png"
+             alt="arXiv 2604.01411 · Fig. 3"
+             style="max-height: 460px;">
+        <figcaption>
+          <span id="motivation-chart-caption" class="chart-caption-text">Gholami et al. — AI and the Memory Wall</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="col-40">
+      <p>The headlines are familiar:</p>
+      <ul style="font-size: 0.92em;">
+        <li>Training ≈ city-scale energy</li>
+        <li>Datacenters projected at ~25% of global electricity by 2030</li>
+        <li>Reasoning models burn inference, not just training</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-tag">part 1 · motivation</div>
+  <aside class="notes">
+    Keep this short. Students know the scaling story. Use the dropdown to flip between charts — pick one the day before, this UI is just for selection.
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Part 5 · Coding agents</span>
+  <h2>Agents are discovering new architectures</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <img src="figures/asi-arch-2025.png" alt="ASI-ARCH — AlphaGo moment for architecture discovery" style="width: 100%; max-height: 500px; object-fit: contain;">
+    </div>
+    <div class="col-45">
+      <h4>ASI-ARCH</h4>
+      <p style="font-size: 0.92em;">An autonomous agent that proposes, implements, trains, and evaluates novel architectures — end-to-end.</p>
+      <ul style="font-size: 0.9em;">
+        <li><strong>1,773</strong> experiments · <strong>20,000</strong> GPU-hours</li>
+        <li><strong>106</strong> new linear-attention architectures that beat human-designed baselines</li>
+        <li>Emergent design principles nobody had written down</li>
+      </ul>
+      <p class="cite">Liu et al. 2025 · arXiv 2507.18074</p>
+    </div>
+  </div>
+  <div class="footer-tag">part 5 · agents</div>
+  <aside class="notes">
+    <p>"AlphaGo moment for model architecture discovery" — an autonomous system runs the full research loop. Note the scale: ~20k GPU-hours, comparable to one medium-sized training run but spread across nearly 2k architectural experiments.</p>
+    <p>What's striking: the agent surfaced design principles that weren't in the training data — emergent, not retrieved. Architecture is "evaluatable" (perplexity, downstream benchmarks) so it gets automated.</p>
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Part 5 · Coding agents</span>
+  <h2>Agents are doing pre-training research overnight</h2>
+  <div class="cols center">
+    <div class="col-55">
+      <div class="punchline" style="font-size: 1.05em;">
+        <em>"Give the agent a small but real LLM training setup and let it experiment autonomously overnight."</em>
+        <p style="font-size: 0.75em; color: var(--ink-soft); margin-top: 0.4em;">— Karpathy, <code>autoresearch</code></p>
+      </div>
+      <p style="font-size: 0.9em; margin-top: 1em;">The loop:</p>
+      <ol style="font-size: 0.9em;">
+        <li>Modify training code</li>
+        <li>Run 5-min experiment</li>
+        <li>Evaluate validation metric</li>
+        <li>Iterate</li>
+      </ol>
+    </div>
+    <div class="col-45">
+      <h4>Autoresearch</h4>
+      <p style="font-size: 0.9em;">Not just kernels or architectures — the <em>whole research loop</em> is becoming automatable, as long as it has a crisp evaluator.</p>
+      <p style="font-size: 0.9em;">You wake up to a log of conducted experiments, hypotheses tried, improvements found.</p>
+      <p class="cite">Karpathy · github.com/karpathy/autoresearch</p>
+    </div>
+  </div>
+  <div class="footer-tag">part 5 · agents</div>
+  <aside class="notes">
+    <p>The common thread across ASI-ARCH, K-Search, KernelEvolve, and autoresearch: each one has a crisp, automatic evaluator (perplexity, kernel latency, correctness tests). That's the precondition. Agent + evaluator + compute = automation.</p>
+    <p>Karpathy's framing is useful because it's small-scale and obvious — you can run this yourself on one GPU. Makes the trend visceral.</p>
+    <p>BTW, there's also work on AI for chip design, like AlphaChip (Azalia Mirhoseini)</p>
+  </aside>
+</section>
+
+<section>
+  <span class="eyebrow">Part 5 · Coding agents</span>
+  <h2>Open questions</h2>
+  <ul>
+    <li>How can we <strong>verify correctness</strong> against hardware quirks we don't fully model?</li>
+    <li>What's the right <strong>feedback signal</strong> — pass/fail, energy, latency, accuracy?</li>
+    <li>Can an agent generate kernels for <strong>analog</strong> substrates where simulation may be inaccurate?</li>
+    <li>Does this collapse the gap between <strong>λ and Ψ</strong> so any specification is trivially implemented?</li>
+  </ul>
+  <div class="footer-tag">part 5 · agents</div>
+</section>
+
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/zoom/zoom.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1600,
+    height: 900,
+    margin: 0.04,
+    minScale: 0.2,
+    maxScale: 2.0,
+    controls: false,
+    progress: true,
+    slideNumber: 'c/t',
+    hash: true,
+    history: true,
+    center: false,
+    transition: 'fade',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    plugins: [ RevealNotes, RevealZoom ]
+  });
+</script>
+</body>
+</html>

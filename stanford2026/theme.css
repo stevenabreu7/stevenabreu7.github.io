@@ -1,0 +1,648 @@
+/* =========================================================
+   Stanford MATSCI 342 lecture — custom reveal.js theme
+   classicthesis-inspired: warm paper bg, serif headings
+   ========================================================= */
+
+/* Fonts.
+   Body options (pick one for --body):
+     - 'Lora'            — warm humanist serif, pairs well with Cormorant      [current]
+     - 'Source Serif 4'  — Adobe body serif, built for serif-heading pairing
+     - 'Crimson Pro'     — contemporary classical
+     - 'EB Garamond'     — very classical, slightly cramped at small sizes
+   Swap --body below and add the matching import. */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:       #fbf7ef;
+  --ink:      #1a1a1a;
+  --ink-soft: #444;
+  --ink-mute: #777;
+  --accent:   #8b2a1f;
+  --accent-soft: #c9a876;
+  --rule:     #d9d1bd;
+  --panel:    #f4ecd9;
+  --serif:    'Cormorant Garamond', 'Palatino', Georgia, serif;
+  --body:     'Lora', Georgia, serif;
+  --mono:     'JetBrains Mono', 'SF Mono', Menlo, monospace;
+}
+
+/* =========== Reveal base overrides =========== */
+
+.reveal {
+  font-family: var(--body);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.reveal-viewport { background: var(--bg); }
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--serif);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-transform: none;
+  text-shadow: none;
+  margin: 0 0 0.6em 0;
+}
+
+.reveal h1 { font-size: 2.6em; }
+.reveal h2 { font-size: 1.9em; }
+.reveal h3 { font-size: 1.3em; }
+.reveal h4 { font-size: 1.1em; font-style: italic; color: var(--ink-soft); }
+
+.reveal p { margin: 0.5em 0; }
+
+.reveal a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(139,42,31,0.25); }
+.reveal a:hover { border-bottom-color: var(--accent); }
+
+.reveal em { color: var(--accent); font-style: italic; }
+.reveal strong { color: var(--ink); font-weight: 600; }
+
+.reveal ul, .reveal ol { margin: 0.5em 0 0.5em 1.2em; }
+.reveal li { margin: 0.3em 0; }
+.reveal ul { list-style: none; padding-left: 1em; }
+.reveal ul li::before {
+  content: "›";
+  color: var(--accent-soft);
+  font-weight: 600;
+  margin-right: 0.6em;
+  margin-left: -1em;
+}
+
+/* =========== Slide layout =========== */
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides > section,
+.reveal .slides > section > section {
+  padding: 60px 80px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* Slide page-number tag (top-right) */
+.reveal .slide-number {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+  background: transparent;
+  letter-spacing: 0.1em;
+  right: 24px;
+  bottom: 18px;
+}
+
+/* =========== Title slide =========== */
+
+section.title-slide {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  background: var(--bg);
+  padding-left: 100px !important;
+}
+
+section.title-slide .eyebrow {
+  font-family: var(--mono);
+  font-size: 0.5em;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 1.4em;
+}
+
+section.title-slide h1 {
+  font-size: 2.4em;
+  line-height: 1.05;
+  margin-bottom: 0.3em;
+  max-width: 18ch;
+}
+
+section.title-slide .subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.4em;
+  color: var(--ink-soft);
+  max-width: 28ch;
+  margin-bottom: 2em;
+}
+
+section.title-slide .meta {
+  font-family: var(--mono);
+  font-size: 0.48em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  line-height: 2;
+}
+
+section.title-slide .accent-rule {
+  width: 80px;
+  height: 3px;
+  background: var(--accent);
+  margin: 0 0 1.4em 0;
+}
+
+/* =========== Section divider =========== */
+/* Same warm paper bg as content slides — differentiated by big serif
+   number, a bold accent rule, and generous whitespace. */
+
+section.divider {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 120px !important;
+}
+
+section.divider .section-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.8em;
+  color: var(--accent);
+  letter-spacing: 0;
+  text-transform: none;
+  margin-bottom: 0.3em;
+  line-height: 1;
+}
+
+section.divider .section-num .dot {
+  color: var(--accent-soft);
+  margin: 0 0.2em;
+}
+
+section.divider .accent-rule {
+  width: 120px;
+  height: 4px;
+  background: var(--accent);
+  margin: 0.5em 0 1.2em 0;
+}
+
+section.divider h1, section.divider h2 {
+  font-family: var(--serif);
+  font-size: 3em;
+  max-width: 22ch;
+  margin-bottom: 0.4em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+section.divider .section-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.4em;
+  color: var(--ink-soft);
+  max-width: 36ch;
+}
+
+/* =========== Utility elements =========== */
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.5em;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: block;
+  margin-bottom: 0.8em;
+}
+
+.punchline {
+  border-left: 4px solid var(--accent);
+  background: rgba(139, 42, 31, 0.05);
+  padding: 0.7em 1em;
+  margin: 0.8em 0;
+  font-family: var(--serif);
+  font-size: 1.1em;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.punchline.green {
+  border-left-color: #3f7a4a;
+  background: rgba(63, 122, 74, 0.06);
+}
+.punchline.green em { color: #3f7a4a; }
+
+.caveat {
+  border: 1px dashed #a87440;
+  background: rgba(168, 116, 64, 0.05);
+  padding: 0.6em 0.9em;
+  font-size: 0.75em;
+  color: #5a3a1f;
+  border-radius: 3px;
+  margin: 0.7em 0;
+}
+
+.caveat strong { color: #5a3a1f; }
+
+.question {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent);
+  font-size: 1.4em;
+  line-height: 1.3;
+  max-width: 22ch;
+  margin: 1em 0;
+}
+
+.cite {
+  font-family: var(--mono);
+  font-size: 0.5em;
+  color: var(--ink-mute);
+  margin-top: 0.8em;
+}
+
+.big {
+  font-size: 1.8em;
+  font-family: var(--serif);
+  line-height: 1.15;
+  max-width: 20ch;
+}
+
+.footer-tag {
+  position: absolute;
+  bottom: 18px;
+  left: 80px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+
+.placeholder {
+  border: 2px dashed var(--rule);
+  background: var(--panel);
+  padding: 1.5em;
+  font-family: var(--mono);
+  font-size: 0.65em;
+  color: var(--ink-mute);
+  border-radius: 4px;
+  text-align: center;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.5;
+}
+
+/* =========== Columns =========== */
+
+.cols {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+  margin-top: 0.4em;
+}
+
+.cols > * { flex: 1; min-width: 0; }
+
+.cols.narrow { gap: 32px; }
+.cols.center { align-items: center; }
+
+.col-55 { flex: 0 0 55% !important; }
+.col-45 { flex: 0 0 45% !important; }
+.col-60 { flex: 0 0 60% !important; }
+.col-40 { flex: 0 0 40% !important; }
+.col-50 { flex: 0 0 50% !important; }
+
+/* Equal-height images across columns — useful when pairing two figures. */
+.cols.eq-height figure {
+  margin: 0;
+  text-align: center;
+}
+
+.cols.eq-height img {
+  height: 520px;
+  max-height: 520px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* =========== Figures =========== */
+
+.reveal img {
+  max-width: 100%;
+  max-height: 600px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 2px;
+}
+
+figure {
+  margin: 0;
+  text-align: center;
+}
+
+figcaption {
+  font-size: 0.55em;
+  font-family: var(--mono);
+  color: var(--ink-mute);
+  font-style: normal;
+  letter-spacing: 0.05em;
+  margin-top: 0.4em;
+}
+
+.fig-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========== Loihi pair (two figures, side by side) =========== */
+
+.loihi-pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  margin-top: 0.8em;
+}
+
+.loihi-pair img {
+  max-height: 340px;
+  max-width: 48%;
+  height: auto;
+  width: auto;
+}
+
+.loihi-facts {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0.4em 0 0.6em 0 !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3em 2.4em;
+  font-size: 0.82em;
+  color: var(--ink-soft);
+}
+
+.loihi-facts li {
+  margin: 0 !important;
+  padding-left: 1.2em;
+  position: relative;
+}
+
+.loihi-facts li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+/* Generic helper: vertically center a slide's contents */
+.reveal .slides > section.v-center {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* =========== Paradigms of computation diagram =========== */
+
+.paradigms {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 36px;
+  margin: 0.8em 0 0.4em 0;
+  padding: 1.4em 1.2em 1.2em;
+  background: rgba(139, 42, 31, 0.035);
+  border: 1px solid rgba(139, 42, 31, 0.08);
+  border-radius: 6px;
+}
+
+.paradigm {
+  display: grid;
+  grid-template-rows: 60px 90px 60px auto auto auto;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+  row-gap: 4px;
+}
+
+.paradigm-glyph {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 2.4em;
+  line-height: 1;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.paradigm-glyph-psi {
+  font-style: normal; /* Ψ reads better upright */
+}
+
+.paradigm-glyphs-pair {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+  justify-content: center;
+}
+
+.paradigm-arrow {
+  display: block;
+}
+
+.paradigm-arrow path,
+.paradigm-arrow line {
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  fill: none;
+}
+
+.paradigm-arrow polygon {
+  fill: var(--ink);
+}
+
+.paradigm-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.1em;
+  color: var(--ink);
+  margin-top: 0.5em;
+  line-height: 1.1;
+}
+
+.paradigm-desc {
+  font-size: 0.62em;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  max-width: 22ch;
+  margin-top: 0.2em;
+}
+
+.paradigm-example {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.68em;
+  color: var(--accent);
+  margin-top: 0.4em;
+}
+
+.paradigm-example strong {
+  font-family: var(--body);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--ink-mute);
+  font-size: 0.85em;
+  letter-spacing: 0.03em;
+  margin-right: 0.3em;
+}
+
+/* =========== Chart-swap dropdown (motivation slide) =========== */
+
+.chart-swap figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8em;
+  margin-top: 0.6em;
+}
+
+.chart-picker {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.chart-picker:hover,
+.chart-picker:focus {
+  border-color: var(--accent);
+  color: var(--ink);
+  outline: none;
+}
+
+.chart-caption-text {
+  font-family: var(--mono);
+  font-size: 0.55em;
+  color: var(--ink-mute);
+  letter-spacing: 0.05em;
+}
+
+/* =========== Tables =========== */
+
+.reveal table {
+  font-size: 0.75em;
+  border-collapse: collapse;
+  margin: 0.8em 0;
+  width: 100%;
+}
+
+.reveal th {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 2px solid var(--ink);
+  padding: 0.6em 0.8em;
+  text-align: left;
+  font-weight: 500;
+}
+
+.reveal td {
+  padding: 0.5em 0.8em;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.reveal tr:last-child td { border-bottom: none; }
+
+/* =========== Takeaway list =========== */
+
+.takeaways {
+  list-style: none !important;
+  padding: 0 !important;
+  counter-reset: takeaway;
+}
+
+.takeaways li {
+  counter-increment: takeaway;
+  padding: 0.5em 0 0.5em 2.8em;
+  position: relative;
+  border-top: 1px solid var(--rule);
+  margin: 0 !important;
+}
+
+.takeaways li:first-child { border-top: none; }
+
+.takeaways li::before {
+  content: counter(takeaway, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  font-family: var(--mono);
+  font-size: 0.7em;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* =========== Agenda =========== */
+
+.agenda {
+  list-style: none !important;
+  padding: 0 !important;
+  counter-reset: agenda;
+  font-size: 0.92em;
+}
+
+.agenda li {
+  counter-increment: agenda;
+  padding: 0.35em 0 0.35em 3em;
+  position: relative;
+  margin: 0 !important;
+}
+
+.agenda li::before {
+  content: "§ " counter(agenda);
+  position: absolute;
+  left: 0;
+  font-family: var(--mono);
+  font-size: 0.75em;
+  color: var(--accent-soft);
+  letter-spacing: 0.08em;
+  top: 0.6em;
+}
+
+.agenda li .sub {
+  color: var(--ink-mute);
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 0.9em;
+  margin-left: 0.4em;
+}
+
+/* =========== Controls =========== */
+
+.reveal .controls { color: var(--accent); }
+.reveal .progress { color: var(--accent); background: rgba(0,0,0,0.05); height: 3px; }
+
+/* =========== Speaker notes view =========== */
+
+.reveal .speaker-notes { font-family: var(--sans); font-size: 18px; }
+
+/* =========== Print =========== */
+
+@media print {
+  .reveal-viewport { background: var(--bg); }
+}
